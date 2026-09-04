@@ -1,0 +1,57 @@
+# =========================================================================
+# ESTRUCTURA DE CREDENCIALES Y VARIABLES DE ENTORNO (PLANTILLA / EJEMPLO)
+# ASIGNATURA: APLICACIONES DISTRIBUIDAS - ACTIVIDAD AUTÓNOMA (AA)
+# TEMA: VEHÍCULOS Y CATEGORÍAS CON OAUTH/JWT Y AZURE
+# =========================================================================
+# ADVERTENCIA: Este archivo contiene valores de ejemplo / placeholders.
+# NO almacenar credenciales ni contraseñas de producción en repositorios públicos.
+# =========================================================================
+
+# --- 1. RECURSOS GENERALES DE AZURE ---
+AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
+AZURE_RESOURCE_GROUP="rg-distribuidos-vehiculos"
+AZURE_LOCATION="eastus"
+
+# --- 2. AZURE CONTAINER REGISTRY (ACR) ---
+ACR_NAME="acrvehiculosdistribuidos"
+ACR_LOGIN_SERVER="acrvehiculosdistribuidos.azurecr.io"
+ACR_ADMIN_USERNAME="acrvehiculosdistribuidos"
+ACR_ADMIN_PASSWORD="<AZURE_ACR_PASSWORD_STRONG_PLACEHOLDER>"
+
+# --- 3. AZURE SQL DATABASE ---
+AZURE_SQL_SERVER_NAME="sql-distribuidos-vehiculos"
+AZURE_SQL_SERVER_FQDN="sql-distribuidos-vehiculos.database.windows.net"
+AZURE_SQL_DATABASE_NAME="VehiculosDB"
+AZURE_SQL_ADMIN_USER="sqladmin"
+AZURE_SQL_ADMIN_PASSWORD="<AZURE_SQL_PASSWORD_STRONG_PLACEHOLDER_Ej_P@ssw0rd2026!>"
+
+# Cadena de conexión para los microservicios:
+AZURE_SQL_CONNECTION_STRING="Server=tcp:sql-distribuidos-vehiculos.database.windows.net,1433;Initial Catalog=VehiculosDB;Persist Security Info=False;User ID=sqladmin;Password=<TU_PASSWORD>;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
+# --- 4. CONFIGURACIÓN DEL SERVICIO OAUTH / JWT ---
+JWT_SECRET_KEY="SuperSecretKeyForDistributedSystemsVehiculos2026!#Key"
+JWT_ISSUER="OAuthJwtService"
+JWT_AUDIENCE="SistemaDistribuidosVehiculos"
+JWT_EXPIRES_MINUTES="60"
+
+# --- 5. USUARIOS POR DEFECTO PARA PRUEBAS DE AUTENTICACIÓN ---
+# Usuario 1 (Administrador)
+USER_ADMIN="admin"
+PASS_ADMIN="Admin123*"
+ROLE_ADMIN="Administrador"
+
+# Usuario 2 (Operador)
+USER_OPERADOR="operador"
+PASS_OPERADOR="Operador123*"
+ROLE_OPERADOR="Operador"
+
+# Usuario 3 (Evaluador / Docente)
+USER_DOCENTE="docente"
+PASS_DOCENTE="Docente2026*"
+ROLE_DOCENTE="Evaluador"
+
+# --- 6. RABBITMQ CLOUD / AZURE CONTAINER APP ---
+RABBITMQ_DEFAULT_USER="admin"
+RABBITMQ_DEFAULT_PASS="admin123"
+RABBITMQ_HOST="rabbitmq-service" # O URL de CloudAMQP en despliegue nube
+RABBITMQ_PORT="5672"

@@ -1,0 +1,112 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-service
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    networks:
+      - distribuidos-net
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  oauthjwt-api:
+    build:
+      context: ./OAuthJwt.Api
+      dockerfile: Dockerfile
+    container_name: oauthjwt-api
+    restart: always
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - Jwt__Key=SuperSecretKeyForDistributedSystemsVehiculos2026!#Key
+      - Jwt__Issuer=OAuthJwtService
+      - Jwt__Audience=SistemaDistribuidosVehiculos
+      - Jwt__ExpiresInMinutes=60
+    networks:
+      - distribuidos-net
+
+  categorias-api:
+    build:
+      context: ./CategoriasMicroservicio.Api
+      dockerfile: Dockerfile
+    container_name: categorias-api
+    restart: always
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - RabbitMQ__HostName=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__UserName=admin
+      - RabbitMQ__Password=admin123
+      - Jwt__Key=SuperSecretKeyForDistributedSystemsVehiculos2026!#Key
+      - Jwt__Issuer=OAuthJwtService
+      - Jwt__Audience=SistemaDistribuidosVehiculos
+      - ConnectionStrings__CategoriasConnection=Server=host.docker.internal;Database=VehiculosDB;User Id=sa;Password=TuPasswordFuerte123*;TrustServerCertificate=True;Encrypt=False;
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      oauthjwt-api:
+        condition: service_started
+    networks:
+      - distribuidos-net
+
+  vehiculos-api:
+    build:
+      context: ./VehiculosMicroservicio.Api
+      dockerfile: Dockerfile
+    container_name: vehiculos-api
+    restart: always
+    ports:
+      - "5003:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - RabbitMQ__HostName=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__UserName=admin
+      - RabbitMQ__Password=admin123
+      - Jwt__Key=SuperSecretKeyForDistributedSystemsVehiculos2026!#Key
+      - Jwt__Issuer=OAuthJwtService
+      - Jwt__Audience=SistemaDistribuidosVehiculos
+      - ConnectionStrings__VehiculosConnection=Server=host.docker.internal;Database=VehiculosDB;User Id=sa;Password=TuPasswordFuerte123*;TrustServerCertificate=True;Encrypt=False;
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      oauthjwt-api:
+        condition: service_started
+    networks:
+      - distribuidos-net
+
+  apigateway:
+    build:
+      context: ./ApiGateway.Yarp
+      dockerfile: Dockerfile
+    container_name: apigateway-yarp
+    restart: always
+    ports:
+      - "5005:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+    depends_on:
+      - oauthjwt-api
+      - categorias-api
+      - vehiculos-api
+    networks:
+      - distribuidos-net
+
+networks:
+  distribuidos-net:
+    driver: bridge

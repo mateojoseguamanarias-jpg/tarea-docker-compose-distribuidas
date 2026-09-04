@@ -1,0 +1,15 @@
+## .NET Ignore Rules
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.idea/
+.vscode/
+*.log
+*.pfx
+*.certificate
+CLAVES_AZURE_REALES.txt
+.env

@@ -1,0 +1,199 @@
+{
+  "info": {
+    "name": "Sistema Distribuidos - Vehiculos y Categorias (OAuth/JWT + Gateway)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. OAuth - Login (Obtener Token)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.accessToken) {",
+              "    pm.environment.set(\"jwt_token\", jsonData.accessToken);",
+              "    console.log(\"Token JWT guardado automáticamente:\", jsonData.accessToken);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Admin123*\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/Auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Auth",
+            "login"
+          ]
+        }
+      }
+    },
+    {
+      "name": "2. OAuth - Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/Auth/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Auth",
+            "status"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Categorias - Listar (CON TOKEN)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/Categoria",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Categoria"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Categorias - Crear [Dispara RabbitMQ] (CON TOKEN)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Sedán Eléctrico\",\n  \"descripcion\": \"Vehículos sedán con propulsión 100% eléctrica\",\n  \"estado\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/Categoria",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Categoria"
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. Vehiculos - Listar (SIN TOKEN -> 401 UNAUTHORIZED)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/Vehiculo",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Vehiculo"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. Vehiculos - Listar (CON TOKEN -> 200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/Vehiculo",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Vehiculo"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Vehiculos - Crear (CON TOKEN)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idCategoria\": 1,\n  \"marca\": \"Tesla\",\n  \"modelo\": \"Model 3 2026\",\n  \"precio\": 45000.00,\n  \"stock\": 3,\n  \"estado\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/Vehiculo",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "Vehiculo"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5005"
+    },
+    {
+      "key": "jwt_token",
+      "value": ""
+    }
+  ]
+}
