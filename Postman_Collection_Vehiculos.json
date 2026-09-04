@@ -189,7 +189,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:5005"
+      "value": "https://apigateway-yarp.bluepond-fbb1e37f.southcentralus.azurecontainerapps.io"
     },
     {
       "key": "jwt_token",

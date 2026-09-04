@@ -202,14 +202,13 @@ Content-Type: application/json
 
 ## 7. Servicios Desplegados en Azure (URLs Públicas)
 
-> **Nota para la revisión:** Los siguientes recursos se encuentran desplegados y activos en Microsoft Azure bajo la suscripción del estudiante:
+> **Servicios activos y en ejecución en Microsoft Azure:**
 
-* 🌐 **API Gateway (Ingreso Principal):** `https://apigateway-yarp.<azure-region>.azurecontainerapps.io`
-* 🔐 **Microservicio OAuth/JWT:** `https://oauthjwt-api.<azure-region>.azurecontainerapps.io`
-* 🗄️ **Azure SQL Server:** `sql-distribuidos-vehiculos.database.windows.net` (Base de datos: `VehiculosDB`)
-* 📦 **Azure Container Registry (ACR):** `acrvehiculosdistribuidos.azurecr.io`
-
-*(Reemplazar `<azure-region>` con el dominio generado por Azure Container Apps al desplegar).*
+* 🌐 **API Gateway (Ingreso Principal):** [https://apigateway-yarp.bluepond-fbb1e37f.southcentralus.azurecontainerapps.io](https://apigateway-yarp.bluepond-fbb1e37f.southcentralus.azurecontainerapps.io)
+* 🔐 **Microservicio OAuth/JWT:** [https://oauthjwt-api.bluepond-fbb1e37f.southcentralus.azurecontainerapps.io](https://oauthjwt-api.bluepond-fbb1e37f.southcentralus.azurecontainerapps.io)
+* 🗄️ **Azure SQL Server:** `sqlvehiculos1788531395.database.windows.net` (Base de datos: `VehiculosDB`)
+* 📦 **Azure Container Registry (ACR):** `acrvehiculos13052.azurecr.io`
+* 🐰 **RabbitMQ Message Broker:** `rabbitmq-service.internal.bluepond-fbb1e37f.southcentralus.azurecontainerapps.io`
 
 ---
 
