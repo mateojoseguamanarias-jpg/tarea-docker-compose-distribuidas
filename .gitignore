@@ -1,15 +1,22 @@
-## .NET Ignore Rules
-bin/
-obj/
+# Build Results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
-.vs/
-.idea/
-.vscode/
-*.log
-*.pfx
-*.certificate
-CLAVES_AZURE_REALES.txt
+
+# Environment files
 .env
+*.local
+
+# Logs
+*.log
